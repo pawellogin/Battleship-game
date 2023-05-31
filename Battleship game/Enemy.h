@@ -1,9 +1,10 @@
 #pragma once
-#include "Player.h"
+#include "Players.h"
 
 
-class Enemy : public Player {
-
+class Enemy : public Players {
 public:
+	void load() override {
 
+	}
 };

@@ -1,36 +1,28 @@
-#include <iostream>
-#include "Map.h"
-#include "Ships.h"
-#include "Player.h"
-#include "Enemy.h"
-
+#include "Game.h"
 
 int main() {
-	Player player;
-	Enemy enemy;
-
-
-	enemy.place_at_random();
-	enemy.print_map();
+	
+	Game game;
 
 	std::cout << "1 star new game\n";
 	std::cout << "2 load saved game\n";
 	std::cout << "3. exit\n";
 
 
-	int choice = 1;
+	int choice = 0;
+	std::cin >> choice;
 	switch (choice) {
-	case 1: player.place_ship();
+	case 1: 
+		game.newGame();
 		break;
 	case 2: // load game
 		break;
 	case 3: return 0;
-		break;
-	case 4:
-		break;
-	case 5:
-		break;
+	default: break;
+	}
 
+	while (1) {
+		game.round();
 	}
 
 

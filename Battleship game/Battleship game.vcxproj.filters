@@ -38,5 +38,8 @@
     <ClInclude Include="HitMap.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Players.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
