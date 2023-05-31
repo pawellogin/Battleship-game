@@ -51,19 +51,21 @@ public:
 			std::uniform_int_distribution<int> dis(0, 9);
 
 			clearScreen();
-			player.print_hitMap();
-			player.print_map();
+			player.printHitMap();
+			player.printMap();
 
 			if (!skipPlayer) {
 				std::cout << "type where to shot\n";
 				if (player.getCords(row, column)) {
+					clearSaveFile();
 					saveGame();
 					clearScreen();
 					std::cout << "Game saved\n";
+					std::this_thread::sleep_for(std::chrono::seconds(1));
 					continue;
 				}
 
-				if (player.shot(row, column, enemy.get_map_ptr())) {
+				if (player.shot(row, column, enemy.getMapPtr())) {
 					continue;
 				}
 			}
@@ -72,8 +74,8 @@ public:
 			clearScreen();
 
 			std::cout << "enemy turn\n";
-			enemy.print_hitMap();
-			if (enemy.shot(dis(gen), dis(gen), player.get_map_ptr())) {
+			enemy.printHitMap();
+			if (enemy.shot(dis(gen), dis(gen), player.getMapPtr())) {
 				skipPlayer = 1;
 				continue;
 			}
@@ -87,7 +89,12 @@ public:
 
 	void loadGame() {
 		player.load();
-		player.load();
+		enemy.load();
+	}
+
+	void clearSaveFile() {
+		std::ofstream outputFile("saveFile.txt", std::ios::out | std::ios::trunc);
+		outputFile.close();
 	}
 
 };

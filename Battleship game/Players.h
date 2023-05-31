@@ -10,17 +10,18 @@
 #include <thread>
 
 class Players {
-	Map map;
-	HitMap hitMap;
+
 protected:
 	std::vector<Ship> list;
+	Map map;
+	HitMap hitMap;
 
 public:
 	Players() {
-		add_ships();
+		addShips();
 	}
 
-	void add_ships() {
+	void addShips() {
 		list.push_back(*(new Ship(5)));
 		list.push_back(*(new Ship(4)));
 		list.push_back(*(new Ship(3)));
@@ -30,19 +31,19 @@ public:
 		list.push_back(*(new Ship(1)));
 	}
 
-	void print_map() {
+	void printMap() {
 		std::cout << map;
 	}
 
-	void print_hitMap() {
+	void printHitMap() {
 		std::cout << hitMap;
 	}
 
-	Map* get_map_ptr() {
+	Map* getMapPtr() {
 		return &(map);
 	}
 
-	Map* get_hitMap_ptr() {
+	Map* getHitMapPtr() {
 		return &(hitMap);
 	}
 
@@ -84,20 +85,24 @@ public:
 	}
 
 	bool getCords(int& row, int& column) {
-		char char_row;
+		char charRow;
 		std::cout << "type in a row(A-J),'S' if you want to save\n";
-		std::cin >> char_row;
+		std::cin >> charRow;
+		
+		charRow = toupper(charRow);
+
+		if (charRow == 'S') {
+			return 1;
+		}
 
 		std::cout << "type in a column(1-10)\n";
 		std::cin >> column;
 
-		char_row = toupper(char_row);
+		
 
-		if (char_row == 'S') {
-			return 1;
-		}
+		
 
-		row = char_row - 'A';
+		row = charRow - 'A';
 
 		column--;
 
@@ -107,7 +112,7 @@ public:
 	void place_ship() {
 		int choice = 0;
 		bool rotation = 1;
-		char char_row = 0;
+		char charRow = 0;
 		int column = 0;
 		int row = 0;
 		bool flag = 1;
@@ -115,7 +120,7 @@ public:
 		for (int k = 0; k < list.size(); k++) {
 			std::cout << map << "\033[40m\033[37m";
 			std::cout << "ship apperance :\n";
-			for (int l = 0; l < list[k].get_size(); l++) {
+			for (int l = 0; l < list[k].getSize(); l++) {
 				if (rotation) {
 					std::cout << "# ";
 				}
@@ -139,13 +144,13 @@ public:
 				getCords(row, column);
 
 				if (rotation) {
-					if (column + list[k].get_size() > 10 || row > 10) {
+					if (column + list[k].getSize() > 10 || row > 10) {
 						k--;
 						continue;
 					}
 				}
 				else {
-					if (row + list[k].get_size() > 10 || column > 10) {
+					if (row + list[k].getSize() > 10 || column > 10) {
 						k--;
 						continue;
 					}
@@ -154,7 +159,7 @@ public:
 				flag = 1;
 
 				if (rotation) {
-					for (int i = column; i < column + list[k].get_size(); i++) {
+					for (int i = column; i < column + list[k].getSize(); i++) {
 						if (map.matrix[row][i] != ' ') {
 							k--;
 							flag = 0;
@@ -162,20 +167,20 @@ public:
 						}
 					}
 					if (flag) {
-						for (int i = column; i < column + list[k].get_size(); i++) {
+						for (int i = column; i < column + list[k].getSize(); i++) {
 							map.matrix[row][i] = k + '0';
 						}
 					}
 				}
 				else {
-					for (int i = row; i < row + list[k].get_size(); i++) {
+					for (int i = row; i < row + list[k].getSize(); i++) {
 						if (map.matrix[i][column] != ' ') {
 							k--;
 							flag = 0;
 							break;
 						}
 					}if (flag) {
-						for (int i = row; i < row + list[k].get_size(); i++) {
+						for (int i = row; i < row + list[k].getSize(); i++) {
 							map.matrix[i][column] = k + '0';
 						}
 					}
@@ -210,13 +215,13 @@ public:
 			row = dis_c(gen);
 
 			if (rotation) { // 0 0 0 0 
-				if (column + list[k].get_size() > 10 || row > 10) {
+				if (column + list[k].getSize() > 10 || row > 10) {
 					k--;
 					continue;
 				}
 			}
 			else {
-				if (row + list[k].get_size() > 10 || column > 10) {
+				if (row + list[k].getSize() > 10 || column > 10) {
 					k--;
 					continue;
 				}
@@ -225,7 +230,7 @@ public:
 			isEmpty = 1;
 
 			if (rotation) {
-				for (int i = column - 1; i < column + list[k].get_size() + 1; i++) {
+				for (int i = column - 1; i < column + list[k].getSize() + 1; i++) {
 
 					if (map.matrix[row][i] != ' ') {
 						k--;
@@ -244,14 +249,14 @@ public:
 					}
 				}
 				if (isEmpty) {
-					for (int i = column; i < column + list[k].get_size(); i++) {
+					for (int i = column; i < column + list[k].getSize(); i++) {
 						map.matrix[row][i] = k + '0';
 
 					}
 				}
 			}
 			else {
-				for (int i = row - 1; i < row + list[k].get_size() + 1; i++) {
+				for (int i = row - 1; i < row + list[k].getSize() + 1; i++) {
 					if (map.matrix[i][column] != ' ') {
 						k--;
 						isEmpty = 0;
@@ -270,7 +275,7 @@ public:
 				}
 
 				if (isEmpty) {
-					for (int i = row; i < row + list[k].get_size(); i++) {
+					for (int i = row; i < row + list[k].getSize(); i++) {
 						map.matrix[i][column] = k + '0';
 					}
 				}
@@ -279,8 +284,8 @@ public:
 	}
 
 	void save() {
-		map.save();
 		hitMap.save();
+		map.save();
 	}
 
 	virtual void load() = 0;

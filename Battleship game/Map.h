@@ -4,14 +4,25 @@
 #include <fstream>
 #include <string>
 
+const int SIZE = 10;
+
 class Map {
 	std::ofstream ofile;
 	std::ifstream ifile;
-	const int size = 10;
+
+
 public:
-	char matrix[10][10];
+	char matrix[SIZE][SIZE];
 	friend class Player;
-public:
+
+	void clear_matrix() {
+		for (int i = 0; i < SIZE; i++) {
+			for (int j = 0; j < SIZE; j++) {
+				matrix[i][j] = ' ';
+			}
+		}
+	}
+
 	friend std::ostream& operator<<(std::ostream& os, const Map& m) {
 
 		for (int i = -1; i < 10; i++) {
@@ -42,17 +53,25 @@ public:
 		return os;
 	}
 
+	
+
 	void save() {
-		ofile.open("saveFile.txt");
+		std::ofstream outputFile("saveFile.txt",std::ios::app); // Open the file in write mode
 
-		for (int i = 0; i < size; i++) {
-			for (int j = 0; j < size; j++) {
-				ofile << matrix[i][j];
+		if (outputFile.is_open()) { // Check if the file was opened successfully
+			for (int i = 0; i < SIZE; i++) {
+				for (int j = 0; j < SIZE; j++) {
+					outputFile << matrix[i][j]; // Write array elements to the file
+				}
+				outputFile << "\n"; // Move to the next line after each row
 			}
-			ofile << "\n";
-		}
 
-		ofile.close();
+			outputFile.close(); // Close the file
+			std::cout << "Array saved successfully." << std::endl;
+		}
+		else {
+			std::cout << "Unable to open the file." << std::endl;
+		}
 	}
 
 	void load(int startLine) {
@@ -86,9 +105,7 @@ public:
 		clear_matrix();
 	}
 
-	void clear_matrix() {
-		memset(matrix, ' ', sizeof(matrix));
-	}
+
 
 	
 };

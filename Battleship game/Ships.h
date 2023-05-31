@@ -10,12 +10,7 @@ public:
 	void hit() {
 		hp--;
 	}
-	int get_size() {
+	int getSize() {
 		return size;
 	}
 };
-//1x Carier 5 
-//1x Battleship 4
-//1x Crusier 3
-//2x Destroyer 2 
-//2x Submarine 1

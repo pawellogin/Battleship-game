@@ -138,6 +138,9 @@
     <ClInclude Include="Players.h" />
     <ClInclude Include="Ships.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="saveFile.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
