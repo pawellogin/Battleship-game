@@ -10,21 +10,28 @@ int main() {
 
 
 	int choice = 0;
-	std::cin >> choice;
-	switch (choice) {
-	case 1: 
-		game.newGame();
-		break;
-	case 2: // load game
-		break;
-	case 3: return 0;
-	default: break;
-	}
-
 	while (1) {
-		game.round();
-	}
+		if (!(std::cin >> choice)) {
+			std::cin.clear();
+			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+			std::cout << "Invalid input. Please enter a valid choice.\n";
+			continue;
+		}
 
+		switch (choice) {
+		case 1:
+			game.newGame();
+			break;
+		case 2: game.loadGame();
+			break;
+		case 3: return 0;
+		default: continue;
+		}
+
+		while (1) {
+			game.round();
+		}
+	}
 
 	return 0;
 }

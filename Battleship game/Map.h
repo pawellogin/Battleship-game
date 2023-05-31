@@ -9,13 +9,15 @@ const int SIZE = 10;
 class Map {
 	std::ofstream ofile;
 	std::ifstream ifile;
-
-
 public:
 	char matrix[SIZE][SIZE];
 	friend class Player;
 
-	void clear_matrix() {
+	Map() {
+		clearMatrix();
+	}
+
+	void clearMatrix() {
 		for (int i = 0; i < SIZE; i++) {
 			for (int j = 0; j < SIZE; j++) {
 				matrix[i][j] = ' ';
@@ -53,20 +55,18 @@ public:
 		return os;
 	}
 
-	
-
 	void save() {
-		std::ofstream outputFile("saveFile.txt",std::ios::app); // Open the file in write mode
+		std::ofstream outputFile("saveFile.txt",std::ios::app); 
 
-		if (outputFile.is_open()) { // Check if the file was opened successfully
+		if (outputFile.is_open()) { 
 			for (int i = 0; i < SIZE; i++) {
 				for (int j = 0; j < SIZE; j++) {
-					outputFile << matrix[i][j]; // Write array elements to the file
+					outputFile << matrix[i][j]; 
 				}
-				outputFile << "\n"; // Move to the next line after each row
+				outputFile << "\n"; 
 			}
 
-			outputFile.close(); // Close the file
+			outputFile.close(); 
 			std::cout << "Array saved successfully." << std::endl;
 		}
 		else {
@@ -82,15 +82,16 @@ public:
 		std::string line;
 
 		ifile.open("saveFile.txt");
-
 		while (std::getline(ifile, line)) {
 			lineCount++;
-			if (lineCount <= startLine) {
-				continue; // Skip the first 10 lines
-			}
+			
+				if (lineCount <= startLine) {
+					continue;
+				}
+			
 			for (char ch : line) {
 				if (ch == '\n') {
-					break; // Break if a newline character is encountered
+					break;
 				}
 				matrix[row][col] = ch;
 				col++;
@@ -98,14 +99,7 @@ public:
 			row++;
 			col = 0;
 		}
-
 	}
-
-	Map() {
-		clear_matrix();
-	}
-
-
 
 	
 };

@@ -5,10 +5,8 @@ class Ship {
 public:
 	Ship(int s) {
 		size = s;
-		hp = size;
 	}
 	void hit() {
-		hp--;
 	}
 	int getSize() {
 		return size;

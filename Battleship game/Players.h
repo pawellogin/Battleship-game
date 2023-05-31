@@ -3,6 +3,7 @@
 #include "Ships.h"
 #include "Map.h"
 #include "HitMap.h"
+#include "Game.h"
 #include <vector>
 #include <cctype>
 #include <random>
@@ -31,6 +32,10 @@ public:
 		list.push_back(*(new Ship(1)));
 	}
 
+	static void clearScreen() {
+		std::cout << "\033[2J\033[1;1H";
+	}
+
 	void printMap() {
 		std::cout << map;
 	}
@@ -47,69 +52,80 @@ public:
 		return &(hitMap);
 	}
 
-
+	void clearLines(int n) {
+		for (int i = 0; i < n; i++) {
+			std::cout << "\033[2K\033[1A";
+		}
+	}
 
 	bool shot(int row, int column, Map* map) {
-		int temp = 0;
+		int counter = 0;
 
 		if (map->matrix[row][column] != ' ') {
 			hitMap.matrix[row][column] = 'X';
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (map->matrix[i][j] == map->matrix[row][column]) {
-						temp++;
+						counter++;
 					}
 				}
 			}
-			if (temp > 1) {
+			if (counter > 1) {
 				map->matrix[row][column] = 'X';
 				std::cout << "hit!\n";
-				std::this_thread::sleep_for(std::chrono::seconds(1));
 				return 1;
 			}
-			else if (temp == 1) {
+			else if (counter == 1) {
 				map->matrix[row][column] = 'X';
 				std::cout << "hit and sank!\n";
-				std::this_thread::sleep_for(std::chrono::seconds(1));
 				return 1;
 			}
-			temp = 0;
+			counter = 0;
 		}
 		else {
 			hitMap.matrix[row][column] = '*';
 			std::cout << "miss\n";
-			std::this_thread::sleep_for(std::chrono::seconds(1));
 			return 0;
-
 		}
 	}
 
 	bool getCords(int& row, int& column) {
-		char charRow;
-		std::cout << "type in a row(A-J),'S' if you want to save\n";
-		std::cin >> charRow;
-		
-		charRow = toupper(charRow);
+		while (1) {
+			char charRow;
+			std::cout << "Type in a row (A-J), 'S' if you want to save: ";
+			std::cin >> charRow;
 
-		if (charRow == 'S') {
-			return 1;
+			charRow = std::toupper(charRow);
+
+			if (charRow == 'S') {
+				return true;
+			}
+
+			if (charRow < 'A' || charRow > 'J') {
+				std::cout << "Invalid row input. Please enter a character between 'A' and 'J'." << std::endl;
+				std::cout << '\b' << ' ' << '\b';
+				clearLines(2);
+				continue;
+			}
+
+			std::cout << "Type in a column (1-10): ";
+			std::cin >> column;
+
+			if (column < 1 || column > 10) {
+				std::cout << "Invalid column input. Please enter a number between 1 and 10." << std::endl;
+				std::cout << '\b' << ' ' << '\b';
+				clearLines(2);
+				continue;
+			}
+
+			row = charRow - 'A';
+			column--;
+
+			return false;
 		}
-
-		std::cout << "type in a column(1-10)\n";
-		std::cin >> column;
-
-		
-
-		
-
-		row = charRow - 'A';
-
-		column--;
-
-		return 0;
 	}
 
-	void place_ship() {
+	void placeShips() {
 		int choice = 0;
 		bool rotation = 1;
 		char charRow = 0;
@@ -133,13 +149,19 @@ public:
 			std::cout << "2. rotate ship\n";
 
 			std::cout << "choose option\n";
-			std::cin >> choice;
+			if (!(std::cin >> choice) && choice!=1 && choice!=2) {
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::cout << "Invalid input. Please enter a valid choice.\n";
+				k--;
+				std::this_thread::sleep_for(std::chrono::seconds(1));
+				clearScreen();
+				continue;
+			}
 
 			switch (choice) {
 			case 1:
-				for (int i = 0; i < 3; i++) {
-					std::cout << "\033[2K\033[1A";
-				}
+				clearLines(3);
 
 				getCords(row, column);
 
@@ -196,7 +218,7 @@ public:
 			std::cout << "\033[2J";
 		}
 	}
-	void place_at_random() {
+	void placeAtRandom() {
 		bool rotation = 1;
 		int column = 0;
 		int row = 0;
