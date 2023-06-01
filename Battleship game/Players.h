@@ -22,42 +22,6 @@ public:
 		addShips();
 	}
 
-	void addShips() {
-		list.push_back(*(new Ship(5)));
-		list.push_back(*(new Ship(4)));
-		list.push_back(*(new Ship(3)));
-		list.push_back(*(new Ship(2)));
-		list.push_back(*(new Ship(2)));
-		list.push_back(*(new Ship(1)));
-		list.push_back(*(new Ship(1)));
-	}
-
-	static void clearScreen() {
-		std::cout << "\033[2J\033[1;1H";
-	}
-
-	void printMap() {
-		std::cout << map;
-	}
-
-	void printHitMap() {
-		std::cout << hitMap;
-	}
-
-	Map* getMapPtr() {
-		return &(map);
-	}
-
-	Map* getHitMapPtr() {
-		return &(hitMap);
-	}
-
-	void clearLines(int n) {
-		for (int i = 0; i < n; i++) {
-			std::cout << "\033[2K\033[1A";
-		}
-	}
-
 	bool shot(int row, int column, Map* map) {
 		int counter = 0;
 
@@ -305,9 +269,45 @@ public:
 		}
 	}
 
+	void addShips() {
+		list.push_back(*(new Ship(5)));
+		list.push_back(*(new Ship(4)));
+		list.push_back(*(new Ship(3)));
+		list.push_back(*(new Ship(2)));
+		list.push_back(*(new Ship(2)));
+		list.push_back(*(new Ship(1)));
+		list.push_back(*(new Ship(1)));
+	}
+
 	void save() {
 		hitMap.save();
 		map.save();
+	}
+
+	static void clearScreen() {
+		std::cout << "\033[2J\033[1;1H";
+	}
+
+	void printMap() {
+		std::cout << map;
+	}
+
+	void printHitMap() {
+		std::cout << hitMap;
+	}
+
+	Map* getMapPtr() {
+		return &(map);
+	}
+
+	Map* getHitMapPtr() {
+		return &(hitMap);
+	}
+
+	void clearLines(int n) {
+		for (int i = 0; i < n; i++) {
+			std::cout << "\033[2K\033[1A";
+		}
 	}
 
 	virtual void load() = 0;
