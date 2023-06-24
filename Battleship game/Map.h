@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include <iostream>
 #include <cstring>
 #include <fstream>
@@ -41,11 +41,28 @@ public:
 						os << "\033[47m\033[30m" << static_cast<char>('A' + i) << " \033[40m\033[37m";
 					}
 					else {
-						if ((i + j) % 2 == 0) {
-							os << "\033[30m\033[44m" << m.matrix[i][j] << " \033[40m\033[37m";
+						if (((i + j) % 2 == 0) ) {
+							if (m.matrix[i][j] == 'X' || m.matrix[i][j] == '*') {
+								os << "\033[30m\033[44m" << m.matrix[i][j] << " \033[40m\033[37m";
+							}
+							else if (m.matrix[i][j] != ' ') {
+								os << "\033[30m\033[44m" << "#" << " \033[40m\033[37m";
+							}
+							else {
+								os << "\033[30m\033[44m" << " " << " \033[40m\033[37m";
+							}
 						}
 						else {
-							os << "\033[30m\033[46m" << m.matrix[i][j] << " \033[40m\033[37m";
+							if (m.matrix[i][j] == 'X' || m.matrix[i][j] == '*') {
+								os << "\033[30m\033[46m" << m.matrix[i][j] << " \033[40m\033[37m";
+							}
+							else if (m.matrix[i][j] != ' ') {
+								os << "\033[30m\033[46m" << "#" << " \033[40m\033[37m";
+							}
+							else {
+								os << "\033[30m\033[46m" << " " << " \033[40m\033[37m";
+							}
+
 						}
 					}
 				}

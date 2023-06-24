@@ -11,7 +11,7 @@ int main() {
 
 	int choice = 0;
 	while (1) {
-		if (!(std::cin >> choice)) {
+		if (!(std::cin >> choice) || choice>4) {
 			std::cin.clear();
 			std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
 			std::cout << "Invalid input. Please enter a valid choice.\n";

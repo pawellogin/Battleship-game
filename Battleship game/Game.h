@@ -4,8 +4,6 @@
 #include "HitMap.h"
 #include "Map.h"
 
-
-
 class Game {
 	Player player;
 	Enemy enemy;
@@ -16,7 +14,16 @@ public:
 		Player::clearScreen();
 		std::cout << "1. random start\n";
 		std::cout << "2. place ships by yourself\n";
-		std::cin >> choice;
+		
+		while (1) {
+			if (!(std::cin >> choice) || choice>2) {
+				std::cin.clear();
+				std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
+				std::cout << "Invalid input. Please enter a valid choice.\n";
+				continue;
+			}
+			else break;
+		}
 
 		switch (choice) {
 		case 1:
